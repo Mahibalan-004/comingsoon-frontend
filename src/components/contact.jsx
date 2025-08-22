@@ -23,8 +23,7 @@ const Contact = () => {
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:5000'
       : 'https://comingsoon-backend-zl1s.onrender.com';
-  return "http://103.45.67.89:5000/api/contact"; 
-
+  
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
