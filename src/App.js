@@ -6,38 +6,30 @@ import './App.css';
 const App = () => {
   const [data, setData] = useState(null);
 
-  // Read API base URL from environment variables with fallback
+  // Choose API base URL based on environment
   const API_BASE_URL =
-    process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:5000'
+      : process.env.REACT_APP_API_BASE_URL; 
+  // 👆 use Vercel/Environment variable for production (ngrok URL)
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/some-route`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const apiData = await response.json();
-        console.log("✅ API Response:", apiData);
+    // Fetch data from backend API
+    fetch(`${API_BASE_URL}/api/some-route`)
+      .then(res => res.json())
+      .then(apiData => {
+        console.log("API Response:", apiData);
         setData(apiData);
-      } catch (err) {
-        console.error("❌ Error fetching API:", err);
-      }
-    };
-
-    fetchData();
+      })
+      .catch(err => console.error("Error fetching API:", err));
   }, [API_BASE_URL]);
 
   return (
     <div className="container">
       <h1>Data from Backend:</h1>
-      {data ? (
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      ) : (
-        <p>Loading data...</p>
-      )}
+      <pre>{JSON.stringify(data, null, 2)}</pre>
 
-      {/* Contact form component */}
+      {/* Your existing Contact component */}
       <Contact />
     </div>
   );
