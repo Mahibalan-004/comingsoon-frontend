@@ -19,10 +19,11 @@ const Contact = () => {
     return () => clearInterval(interval);
   }, [backgroundImages.length]);
 
+  // ✅ Updated API Base URL (uses Vercel env variable for production)
   const API_BASE_URL =
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:5000'
-      : 'https://comingsoon-backend-zl1s.onrender.com';
+      : process.env.REACT_APP_API_BASE_URL;
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
